@@ -192,7 +192,7 @@ let g:startify_list_order = [
   \ ]
 
 let g:startify_bookmarks = [
-  \ { 'c': '~/dev/dotfiles/pkgs/nvim_config.nix' },
+  \ { 'c': '~/dev/nixfiles/pkgs/nvim_config.nix' },
   \ { 'n': '~/dev/nixos/nixpkgs' },
   \ '~/dev/mozilla/relengapi/src/relengapi_tools/',
   \ ]

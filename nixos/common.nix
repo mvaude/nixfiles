@@ -5,7 +5,7 @@
 
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" ];
   boot.kernelModules = [ "intel_agp" "i915" ];
-  boot.kernelPackages = pkgs.linuxPackages_4_6;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
 
@@ -33,9 +33,9 @@
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 80 8080 8000 ];
 
-  // By default, containers cannot talk to the outside network. If you want that, you should set up Network Address
-  // Translation (NAT) rules on the host to rewrite container traffic to use your external IP address. This can be
-  // accomplished using the following configuration on the host:
+  # By default, containers cannot talk to the outside network. If you want that, you should set up Network Address
+  # Translation (NAT) rules on the host to rewrite container traffic to use your external IP address. This can be
+  # accomplished using the following configuration on the host:
   networking.nat.enable = true;
   networking.nat.internalInterfaces = ["ve-+"];
   networking.nat.externalInterface = "eth0";
@@ -53,7 +53,7 @@
   '';
 
   nixpkgs.config.allowBroken = false;
-  // Allow Propriety packages
+  # Allow Propriety packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreeRedistributable = true;
   nixpkgs.config.packageOverrides = pkgs: (import ./../pkgs { inherit pkgs i3_tray_output; });
@@ -72,9 +72,9 @@
   services.nixosManual.showManual = true;
   services.openssh.enable = true;
 
-  // printer settings
+  # printer settings
   services.printing.enable = false;
-  // services.printing.drivers = [ pkgs.brother-hl2030 ];
+  # services.printing.drivers = [ pkgs.brother-hl2030 ];
 
   services.xserver.autorun = true;
   services.xserver.enable = true;
@@ -96,5 +96,6 @@
 
   time.timeZone = "Europe/Paris";
 
-  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enable = false;
+  virtualisation.docker.enable = true;
 }

@@ -7,10 +7,10 @@
     ];
 
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.gummyboot.enable = true;
+  boot.loader.systemd-boot.enable = true;
 
   fileSystems."/" = {
-      device = "/dev/disk/by-uuid/8091fc09-6260-4259-ac77-69fb9f9be067";
+      device = "/dev/disk/by-uuid/e784b28c-5a2d-4365-a232-8f2e1c66d36e";
       fsType = "ext4";
     };
 
@@ -55,4 +55,7 @@
   services.xserver.windowManager.default = "i3";
   services.xserver.windowManager.i3.enable = true;
   services.xserver.windowManager.i3.configFile = "/tmp/config/i3";
+
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
 }

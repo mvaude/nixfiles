@@ -36,7 +36,6 @@
       gitAndTools.tig
       gitFull
       gnumake
-      gnupg
       htop
       # gpg keys public CLI
       keybase
@@ -75,6 +74,10 @@
       pavucontrol
       zathura
 
+      # gnome3 theme
+      gnome3.dconf
+      gnome3.defaultIconTheme
+      gnome3.gnome_themes_standard
     ];
 
   fonts.enableFontDir = true;
@@ -128,9 +131,9 @@
   #  });
   #'';
 
-  #services.xserver.displayManager.sessionCommands = ''
-  #  ${pkgs.mvaude_config.theme_switch}/bin/switch-theme
-  #'';
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.mvaude_config.theme_switch}/bin/switch-theme
+  '';
 
   users.users."bax" = {
     isNormalUser = true;

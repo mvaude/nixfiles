@@ -22,7 +22,7 @@ let
     };
 
     git = import ./git.nix {
-      inherit (pkgs) writeText neovim gnupg;
+      inherit (pkgs) writeText neovim;
     };
 
     zsh = import ./zsh.nix {
