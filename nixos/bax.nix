@@ -75,9 +75,9 @@
       zathura
 
       # gnome3 theme
-      gnome3.dconf
-      gnome3.defaultIconTheme
-      gnome3.gnome_themes_standard
+      #gnome3.dconf
+      #gnome3.defaultIconTheme
+      #gnome3.gnome_themes_standard
     ];
 
   fonts.enableFontDir = true;

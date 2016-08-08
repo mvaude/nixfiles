@@ -1,5 +1,5 @@
 { i3, i3status, xrandr, feh, py3status, lib, rofi-menugen, writeScript
-, termite, ipython, gnome_keyring, redshift, alot, networkmanagerapplet
+, termite, ipython, redshift, alot, networkmanagerapplet
 , rofi, rofi-pass, i3lock-fancy, xbacklight, pa_applet
 , i3_tray_output
 , writeText
@@ -372,8 +372,8 @@ let
       exec --no-startup-id ${networkmanagerapplet}/bin/nm-applet
       exec --no-startup-id ${termite}/bin/termite --name alot -e ${alot}/bin/alot
       exec --no-startup-id ${termite}/bin/termite --name ipython -e ${ipython}/bin/ipython
-      exec --no-startup-id ${gnome_keyring}/bin/gnome-keyring
       exec --no-startup-id ${redshift}/bin/redshift -l 46.055556:14.508333 -t 5700:3600
+      # exec --no-startup-id ${gnome_keyring}/bin/gnome-keyring
 
       # }}}
     '';
@@ -384,7 +384,7 @@ in {
   light = self "light";
   packages = {
     inherit i3 i3status xrandr feh py3status rofi-menugen termite ipython
-      gnome_keyring redshift alot networkmanagerapplet rofi rofi-pass
+       redshift alot networkmanagerapplet rofi rofi-pass
       i3lock-fancy xbacklight pa_applet;
   };
 }

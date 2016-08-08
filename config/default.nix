@@ -37,7 +37,7 @@ let
       inherit i3_tray_output;
       inherit (pkgs.xorg) xrandr xbacklight;
       inherit (pkgs.pythonPackages) ipython alot py3status;
-      inherit (pkgs.gnome3) gnome_keyring;
+      #inherit (pkgs.gnome3) gnome_keyring;
     };
 
     i3status = import ./i3status.nix {
