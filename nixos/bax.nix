@@ -60,8 +60,6 @@
       which
       # terminal recorder
       asciinema
-      # pulse audio gui controller
-      pavucontrol
       # media player
       mpv
       # internet video downloader
@@ -71,6 +69,8 @@
       pythonPackages.Flootty
 
       # gui applications
+
+      # pulse audio gui controller
       pavucontrol
       zathura
 
@@ -139,7 +139,7 @@
     isNormalUser = true;
     uid = 1000;
     description = "Maxime Vaude";
-    extraGroups = [ "wheel" "vboxusers" "networkmanager" "docker" ] ;
+    extraGroups = [ "wheel" "networkmanager" "docker" ] ;
     group = "users";
     home = "/home/bax";
     shell = "/run/current-system/sw/bin/zsh";
