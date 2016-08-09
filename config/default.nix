@@ -5,7 +5,7 @@
 
 let
 
-  defaultBrightness = "light";
+#  defaultBrightness = "light";
   scheme = "default";
   templates =
     [ "i3"
@@ -65,44 +65,44 @@ let
     };
 
     # TODO: should be also a systemd unit (one off) after ???
-    theme_switch = pkgs.writeScriptBin "switch-theme"
-      ''
-        # set default brightness if not yet set
-        if [ ! -e /tmp/theme-brightness ]; then
-          echo -n "${defaultBrightness}" > /tmp/theme-brightness
-        fi
-
-        brightness=`cat /tmp/theme-brightness`
-
-        if [ $# -eq 1 ]; then
-          if [ "$1" = "toggle" ]; then
-            echo "Toggling brightness ($brightness)"
-            if [ "$brightness" = "light" ]; then
-              brightness="dark"
-            fi
-            if [ "$brightness" = "dark" ]; then
-              brightness="light"
-            fi
-          else
-            brightness=$1
-          fi
-          echo "setting brightness: $brightness"
-          rm -r /tmp/theme-brightness
-          echo -n "$brightness" > /tmp/theme-brightness
-        fi
-
-        # rebuild configuration 
-        rm -rf /tmp/config
-        mkdir /tmp/config
-        for app in ${builtins.concatStringsSep " " (builtins.attrNames apps)}; do
-          source=/etc/config/$app.$brightness
-          if [ -e $source ]; then
-            cp -f $source /tmp/config/$app
-          fi
-        done
-
-        mkdir -p $HOME/.vim/backup
-      '';
+#    theme_switch = pkgs.writeScriptBin "switch-theme"
+#      ''
+#        # set default brightness if not yet set
+#        if [ ! -e /tmp/theme-brightness ]; then
+#          echo -n "${defaultBrightness}" > /tmp/theme-brightness
+#        fi
+#
+#        brightness=`cat /tmp/theme-brightness`
+#
+#        if [ $# -eq 1 ]; then
+#          if [ "$1" = "toggle" ]; then
+#            echo "Toggling brightness ($brightness)"
+#            if [ "$brightness" = "light" ]; then
+#              brightness="dark"
+#            fi
+#            if [ "$brightness" = "dark" ]; then
+#              brightness="light"
+#            fi
+#          else
+#            brightness=$1
+#          fi
+#          echo "setting brightness: $brightness"
+#          rm -r /tmp/theme-brightness
+#          echo -n "$brightness" > /tmp/theme-brightness
+#        fi
+#
+#        # rebuild configuration 
+#        rm -rf /tmp/config
+#        mkdir /tmp/config
+#        for app in ${builtins.concatStringsSep " " (builtins.attrNames apps)}; do
+#          source=/etc/config/$app.$brightness
+#          if [ -e $source ]; then
+#            cp -f $source /tmp/config/$app
+#          fi
+#        done
+#
+#        mkdir -p $HOME/.vim/backup
+#      '';
 
     # -- NIXOS --
 

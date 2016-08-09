@@ -1,12 +1,14 @@
 { writeText, theme }:
 
 let
-  self = brightness: writeText "i3status-config-${brightness}"
+#  self = brightness: writeText "i3status-config-${brightness}"
+   self =
     ''
       ${builtins.replaceStrings
         [ "general {" "color_bad = \""]
         [ "general {\n    interval = 5" "color_bad = \"#" ]
-        (builtins.readFile "${theme}/i3status.${brightness}")
+#        (builtins.readFile "${theme}/i3status.${brightness}")
+        (builtins.readFile "${theme}/i3status}")
         }
 
       order += "disk /"
@@ -15,9 +17,9 @@ let
         format = "%free"
       }
 
-      order += "ethernet enp0s25"
+      order += "ethernet eth0"
 
-      ethernet enp0s25{
+      ethernet eth0{
         # if you use %speed, i3status requires root privileges
         format_up = "E: %ip (%speed)"
         format_down = "E: down"

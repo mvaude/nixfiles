@@ -2,7 +2,8 @@
 
 
 let
-  self = brightness: writeText "termite-config-${brightness}"
+#  self = brightness: writeText "termite-config-${brightness}"
+   self =
     (''
       [options]
       scroll_on_output = false
@@ -39,7 +40,8 @@ let
       # emit escape sequences for extra modified keys
       #modify_other_keys = false
 
-      '' + (builtins.readFile "${theme}/termite.${brightness}"));
+       ''
+#      '' + (builtins.readFile "${theme}/termite.${brightness}"));
 in {
   dark = self "dark";
   light = self "light";

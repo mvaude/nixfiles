@@ -346,7 +346,8 @@ let
       #}}}
       #{{{ Colors
 
-      ${getColors (i3Theme brightness)}
+#      ${getColors (i3Theme brightness)}
+      ${getColors (i3Theme)}
 
       #}}}
       #{{{ i3bar
@@ -358,7 +359,8 @@ let
           tray_output $mon_lap
       #{{{ i3bar colors
           colors {
-      ${getBarColors (i3Theme brightness)}
+#              ${getBarColors (i3Theme brightness)}
+              ${getBarColors (i3Theme)}
           }
       #}}}
       }
