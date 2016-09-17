@@ -375,7 +375,7 @@ let
       exec --no-startup-id ${termite}/bin/termite --name alot -e ${alot}/bin/alot
       exec --no-startup-id ${termite}/bin/termite --name ipython -e ${ipython}/bin/ipython
       exec --no-startup-id ${redshift}/bin/redshift -l 46.055556:14.508333 -t 5700:3600
-      # exec --no-startup-id ${gnome_keyring}/bin/gnome-keyring
+      # exec --no-startup-id {gnome_keyring}/bin/gnome-keyring
 
       # }}}
     '';

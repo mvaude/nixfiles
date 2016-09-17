@@ -16,7 +16,7 @@
 
   # hostId needed for zsh
   # cksum /etc/machine-id | while read c rest; do printf "%x" $c; done
-  networking.hostId = "7eb16a6c";
+  networking.hostId = "472528f0";
 
   nix.extraOptions = ''
     build-cores = 6
