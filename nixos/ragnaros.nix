@@ -19,9 +19,11 @@
         zsh
 
         # Editors
+	atom
         (neovim.override { vimAlias = true; })
 
         # Browsers
+	chromium
         firefoxWrapper
 
         git
@@ -29,6 +31,7 @@
         dmenu
 
         rxvt_unicode
+	terminology
 
         acpi
         file
