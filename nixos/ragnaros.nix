@@ -1,104 +1,12 @@
-	{ config, pkgs, ... }:
+{ config, pkgs, ... }:
 
-	{
-            nixpkgs.config.allowUnfree = true;
+{
+    imports = [ ./hw/dell-e7450.nix ];
 
-	    hardware = {
-		bluetooth.enable = false;
-		pulseaudio = {
-		    enable = true;
-		    package = pkgs.pulseaudioFull;
-		    support32Bit = true;
-		};
-		cpu.intel.updateMicrocode = true;
-		opengl = {
-		    driSupport32Bit = true;
-		    extraPackages = [ pkgs.vaapiIntel ];
-		};
-		trackpoint = {
-		    enable = true;
-		    sensitivity = 200;
-		    emulateWheel = true;
-		};
-	    };
-
-	    fileSystems."/" = {
-		device = "/dev/vg/root";
-		label = "root";
-		fsType = "ext4";
-		options = [ "noatime" "nodiratime" "discard" ];
-	    };
-
-	    fileSystems."/boot" = {
-	      device = "/dev/disk/by-label/BOOT";
-	      mountPoint = "/boot";
-	    };
-
-	    swapDevices = [
-	      {
-		device = "/dev/vg/swap";
-	      }
-	    ];
-
-	    boot = {
-		vesa = false;
-
-		kernelPackages = pkgs.linuxPackages_latest;
-
-		initrd = {
-		    luks = {
-		      devices = [
-			{
-			  allowDiscards = true;
-			  name = "root";
-			  device = "/dev/sda3";
-			  preLVM = true;
-			}
-		      ];
-
-		      cryptoModules = [ "aes" "xts" "sha512" "sha256" ];
-		    };
-		    kernelModules = [ "xhci_hcd" "ehci_pci" "ahci" "usb_storage" "aesni-intel" "fbcon" "i915" ];
-		    availableKernelModules = [ "scsi_wait_scan" ];
-		};
-		kernelModules = [ "kvm-intel" "msr" "bbswitch" "ecryptfs" ];
-		blacklistedKernelModules = [ "snd_pcsp" "pcspkr" ];
-
-		kernelParams = [
-		    "i915.enable_ips=0"
-		];
-		extraModprobeConfig = ''
-		    options snd_hda_intel mode=auto power_save=1 index=1
-		'';
-
-
-		loader = {
-
-		    efi.canTouchEfiVariables = true;
-
-		    grub = {
-			enable = true;
-			version = 2;
-			efiSupport = true;
-			gfxmodeEfi = "1024*768";
-			device = "nodev";
-			memtest86.enable = false;
-			configurationLimit = 50;
-            };
-        };
-    };
+    nixpkgs.config.allowUnfree = true;
 
     time = {
         timeZone = "Europe/Paris";
-    };
-
-    networking = {
-        firewall = {
-            enable = true;
-            allowPing = false;
-        };
-        hostName = "maxime-scality";
-        networkmanager.enable = true;
     };
 
     #i18n = {
@@ -180,12 +88,6 @@
                 default = "i3";
             };
         };
-    };
-
-    powerManagement = {
-        enable = true;
-        cpuFreqGovernor = "ondemand";
-        scsiLinkPolicy = "max_performance";
     };
 
     fonts = {
