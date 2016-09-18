@@ -1,61 +1,235 @@
-{ pkgs, ... }:
+	{ config, pkgs, ... }:
 
-{
-  imports =
-    [ ./hw/dell-e7450.nix 
-      (import ./bax.nix { i3_tray_output = "eDP1"; })
+	{
+            nixpkgs.config.allowUnfree = true;
+
+	    hardware = {
+		bluetooth.enable = false;
+		pulseaudio = {
+		    enable = true;
+		    package = pkgs.pulseaudioFull;
+		    support32Bit = true;
+		};
+		cpu.intel.updateMicrocode = true;
+		opengl = {
+		    driSupport32Bit = true;
+		    extraPackages = [ pkgs.vaapiIntel ];
+		};
+		trackpoint = {
+		    enable = true;
+		    sensitivity = 200;
+		    emulateWheel = true;
+		};
+	    };
+
+	    fileSystems."/" = {
+		device = "/dev/vg/root";
+		label = "root";
+		fsType = "ext4";
+		options = [ "noatime" "nodiratime" "discard" ];
+	    };
+
+	    fileSystems."/boot" = {
+	      device = "/dev/disk/by-label/BOOT";
+	      mountPoint = "/boot";
+	    };
+
+	    swapDevices = [
+	      {
+		device = "/dev/vg/swap";
+	      }
+	    ];
+
+	    boot = {
+		vesa = false;
+
+		kernelPackages = pkgs.linuxPackages_latest;
+
+		initrd = {
+		    luks = {
+		      devices = [
+			{
+			  allowDiscards = true;
+			  name = "root";
+			  device = "/dev/sda3";
+			  preLVM = true;
+			}
+		      ];
+
+		      cryptoModules = [ "aes" "xts" "sha512" "sha256" ];
+		    };
+		    kernelModules = [ "xhci_hcd" "ehci_pci" "ahci" "usb_storage" "aesni-intel" "fbcon" "i915" ];
+		    availableKernelModules = [ "scsi_wait_scan" ];
+		};
+		kernelModules = [ "kvm-intel" "msr" "bbswitch" "ecryptfs" ];
+		blacklistedKernelModules = [ "snd_pcsp" "pcspkr" ];
+
+		kernelParams = [
+		    "i915.enable_ips=0"
+		];
+		extraModprobeConfig = ''
+		    options snd_hda_intel mode=auto power_save=1 index=1
+		'';
+
+
+		loader = {
+
+		    efi.canTouchEfiVariables = true;
+
+		    grub = {
+			enable = true;
+			version = 2;
+			efiSupport = true;
+			gfxmodeEfi = "1024*768";
+			device = "nodev";
+			memtest86.enable = false;
+			configurationLimit = 50;
+            };
+        };
+    };
+
+    time = {
+        timeZone = "Europe/Paris";
+    };
+
+    networking = {
+        firewall = {
+            enable = true;
+            allowPing = false;
+        };
+        hostName = "maxime-scality";
+        networkmanager.enable = true;
+    };
+
+    #i18n = {
+    #    consoleKeyMap = "en";
+    #    defaultLocale = "en_US.UTF-8";
+    #};
+
+    environment.systemPackages = with pkgs; [
+        # Shells
+        zsh
+
+        # Editors
+        (neovim.override { vimAlias = true; })
+
+        # Browsers
+        firefoxWrapper
+
+        git
+
+        dmenu
+
+        rxvt_unicode
+
+        acpi
+        file
+        gparted
+        htop
+        pciutils
+        tree
+        wget
+        curl
+
+
+
+        # Others
+        xlibs.xf86videointel
+        vaapiIntel
     ];
 
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.enable = true;
+    services = {
+        fail2ban = {
+            enable = true;
+            jails.ssh-iptables = ''
+                enable = true
+            '';
+        };
 
-  fileSystems."/" = {
-      device = "/dev/disk/by-uuid/e784b28c-5a2d-4365-a232-8f2e1c66d36e";
-      fsType = "ext4";
+        acpid = {
+            enable = true;
+            lidEventCommands = ''
+                grep -q closed /proc/acpi/button/lid/LID0/state && \
+                /run/current-system/sw/bin/systemctl suspend
+            '';
+        };
+
+        dbus = {
+            enable = true;
+        };
+
+        devmon = {
+            enable = true;
+        };
+
+        xserver = {
+            enable = true;
+            layout = "en";
+            displayManager.slim.enable = true;
+
+            videoDrivers = [ "intel" ];
+
+            synaptics = {
+                enable = true;
+            };
+
+            windowManager = {
+                i3 = {
+                    enable = true;
+                };
+                default = "i3";
+            };
+        };
     };
 
-  # hostId needed for zsh
-  # cksum /etc/machine-id | while read c rest; do printf "%x" $c; done
-  networking.hostId = "472528f0";
-
-  nix.extraOptions = ''
-    build-cores = 6
-  '';
-  nix.maxJobs = 12;
-
-  networking.hostName = "thaddius";
-
-  services.xserver.displayManager.slim.defaultUser = "bax";
-  services.xserver.desktopManager.default = "none";
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  #systemd.user.services.dunst = {
-  #  enable = true;
-  #  description = "Lightweight and customizable notification daemon";
-  #  wantedBy = [ "default.target" ];
-  #  path = [ pkgs.dunst ];
-  #  serviceConfig = {
-  #    Restart = "always";
-  #    ExecStart = "${pkgs.dunst}/bin/dunst";  # TODO configure theme
-  #  };
-  #};
-
-  systemd.user.services.i3lock-auto = {
-    enable = true;
-    description = "Automatically lock screen after 15 minutes";
-    wantedBy = [ "default.target" ];
-    path = with pkgs; [ xautolock i3lock-fancy ];
-    serviceConfig = {
-      Restart = "always";  # TODO: lockaftersleep does not work
-      ExecStart = "${pkgs.xautolock}/bin/xautolock -lockaftersleep -detectsleep -time 15 -locker ${pkgs.i3lock-fancy}/bin/i3lock-fancy";
+    powerManagement = {
+        enable = true;
+        cpuFreqGovernor = "ondemand";
+        scsiLinkPolicy = "max_performance";
     };
-  };
 
-  services.xserver.windowManager.default = "i3";
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.windowManager.i3.configFile = "/tmp/config/i3";
+    fonts = {
+        enableFontDir = true;
+        enableGhostscriptFonts = true;
+        fonts = with pkgs; [
+            corefonts
+            dejavu_fonts
+            inconsolata
+            liberation_ttf
+            terminus_font
+            ttf_bitstream_vera
+            vistafonts
+        ];
+    };
 
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+    security.pam.enableEcryptfs = true;
+
+    users.extraUsers = {
+        maxter = {
+            description = "Maxime Vaude";
+            uid = 1000;
+            extraGroups = [
+                "adm"
+                "audio"
+                "cdrom"
+                "dialout"
+                "docker"
+                "libvirtd"
+                "networkmanager"
+                "plugdev"
+                "scanner"
+                "systemd-journal"
+                "tracing"
+                "transmission"
+                "tty"
+                "usbtmc"
+                "vboxusers"
+                "video"
+                "wheel"
+                "wireshark"
+            ];
+            isNormalUser = true;
+            initialPassword = "passit";
+        };
+    };
 }
