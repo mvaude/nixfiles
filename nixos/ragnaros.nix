@@ -31,7 +31,7 @@
         dmenu
 
         rxvt_unicode
-	terminology
+	e19.terminology
 
         acpi
         file
@@ -42,7 +42,7 @@
         wget
         curl
 
-
+        nox
 
         # Others
         xlibs.xf86videointel

@@ -16,13 +16,13 @@
 
         devices = [
 	  {
-	    allowaDiscards = true;
+	    allowDiscards = true;
 	    name = "root";
 	    device = "/dev/sda3";
 	    preLVM = true;
 	  }
 	];
-      }
+      };
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
@@ -37,7 +37,7 @@
 	device = "nodev";
 	efiSupport = true;
         enable = true;
-	gfsmodeEfi = "1024*768";
+	gfxmodeEfi = "1024*768";
 	memtest86.enable = false;
 	version = 2;
       };
@@ -87,14 +87,14 @@
     firewall = {
       enable = true;
       allowPing = false;
-    }
+    };
 
-    hostname = "maxime-scality";
+    hostName = "maxime-scality";
     networkmanager.enable = true;
   };
 
-  powerManagerment = {
-    cpiFreqGovernor = "ondemand";
+  powerManagement = {
+    cpuFreqGovernor = "ondemand";
     enable = true;
     scsiLinkPolicy = "max_performance";
   };
@@ -104,4 +104,4 @@
       device = "/dev/vg/swap";
     }
   ];
-};
+}
