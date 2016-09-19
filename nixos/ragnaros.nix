@@ -31,7 +31,7 @@
         dmenu
 
         rxvt_unicode
-	e19.terminology
+	enlightenment.terminology
 
         acpi
         file

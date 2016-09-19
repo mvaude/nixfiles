@@ -18,7 +18,7 @@
 	  {
 	    allowDiscards = true;
 	    name = "root";
-	    device = "/dev/sda3";
+	    device = "/dev/sda2";
 	    preLVM = true;
 	  }
 	];
@@ -26,7 +26,7 @@
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelParams = [ "i915.enable_ips=0" ];
+    kernelParams = [ "i915.enable_ips=0" "intel_pstate=no_hwp" ];
     kernelModules = [ "kvm-intel" "msr" "bbswitch" "ecryptfs" ];
 
     loader = {
@@ -90,7 +90,8 @@
     };
 
     hostName = "maxime-scality";
-    networkmanager.enable = true;
+    #networkmanager.enable = true;
+    wireless.enable = true;
   };
 
   powerManagement = {
