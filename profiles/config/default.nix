@@ -8,6 +8,10 @@ let
       inherit (pkgs) neovim writeText;
     };
 
+    termite = import ./termite {
+      inherit (pkgs) writeText firefox;
+    };
+
     zsh = import ./zsh {
       inherit (pkgs) writeText fzf neovim less zsh-prezto;
     };
@@ -30,6 +34,7 @@ let
     # TODO: loop over apps
     system_packages = builtins.attrValues (
       self.git.packages //
+      self.termite.packages //
       self.zsh.packages //
       {});  
 

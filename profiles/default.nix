@@ -31,7 +31,21 @@ in {
         (neovim.override { vimAlias = true; })
         zsh-prezto
       ];
+  };
 
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      anonymousPro
+      corefonts
+      dejavu_fonts
+      freefont_ttf
+      liberation_ttf
+      source-code-pro
+      terminus_font
+      ttf_bitstream_vera
+    ];
   };
 
   nixpkgs.config = {

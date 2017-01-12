@@ -2,10 +2,14 @@
 
 
 let
-  self = brightness: writeText "config-termite" builtins.readFile ./config;
+  self = writeText "config-termite" (builtins.readFile ./config);
 in {
-  dark = self "dark";
-  light = self "light";
+  environment_etc = [
+    {
+      source = self;
+      target = "xdg/termite.cfg";
+    }
+  ];
   packages = {
     inherit firefox;
   };
