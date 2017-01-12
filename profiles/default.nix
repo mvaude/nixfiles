@@ -1,8 +1,12 @@
 # Nixos settings
 { pkgs, ... }:
 
+# TODO: config default
 let
+  mvaude_config = import ./config { inherit pkgs; };
+in {
   environment = {
+    etc = mvaude_config.environment_etc;
 
     # NOTE: changes to this take effect on login.
     sessionVariables = {
@@ -16,16 +20,17 @@ let
       "${pkgs.zsh}/bin/zsh"
     ];
 
-    systemPackages = with pkgs; [
-      awesome
-      lm_sensors
+    systemPackages = with pkgs; 
+      mvaude_config.system_packages ++ [
+        awesome
+        lm_sensors
 
-      curl
-      git
-      termite
-      (neovim.override { vimAlias = true; })
-      zsh-prezto
-    ];
+        curl
+        git
+        termite
+        (neovim.override { vimAlias = true; })
+        zsh-prezto
+      ];
 
   };
 
@@ -105,4 +110,15 @@ let
       efi.canTouchEfiVariables = true;
     };
   };
-in self
+
+  nix.package = pkgs.nixUnstable;
+  nix.binaryCachePublicKeys = [
+    "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+  ];
+  nix.useSandbox = true;
+  nix.trustedBinaryCaches = [ "https://hydra.nixos.org" ];
+  nix.extraOptions = ''
+    gc-keep-outputs = true
+    auto-optimise-store = true
+  '';
+}
