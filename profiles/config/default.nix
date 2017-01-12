@@ -3,14 +3,21 @@
 let
 
   apps = {
+
     git = import ./git {
       inherit (pkgs) neovim writeText;
     };
+
+    zsh = import ./zsh {
+      inherit (pkgs) writeText fzf neovim less zsh-prezto;
+    };
+
   };
 
   # -- NIXOS --
 
   self = {
+
     environment_etc =
       (pkgs.lib.flatten (map
         (appName:
@@ -23,7 +30,9 @@ let
     # TODO: loop over apps
     system_packages = builtins.attrValues (
       self.git.packages //
+      self.zsh.packages //
       {});  
+
   } // apps ;
 
 in self
