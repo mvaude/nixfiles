@@ -8,7 +8,7 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 
-font = Roboto 9
+font = Roboto Regular 45
 
 scrollback_lines = 10000
 search_wrap = true

@@ -29,6 +29,7 @@ in {
         lm_sensors
 
         curl
+	firefox
         git
         termite
         (neovim.override { vimAlias = true; })
@@ -40,6 +41,7 @@ in {
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
+      roboto
       anonymousPro
       corefonts
       dejavu_fonts
