@@ -84,7 +84,7 @@ in {
       enableTCP = false;
       exportConfiguration = true;
       layout = "us";
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "nouveau" "nvidia" ];
       xkbOptions = "eurosign:e, caps:none";
 
       desktopManager = {
