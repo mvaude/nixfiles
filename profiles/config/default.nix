@@ -4,16 +4,21 @@ let
 
   apps = {
 
-    git = import ./git {
-      inherit (pkgs) neovim writeText;
+    # TODO: configure awesome
+    awesome = import ./awesome {
+      inherit (pkgs) awesome writeText;
     };
 
-    termite = import ./termite {
-      inherit (pkgs) writeText firefox;
+    git = import ./git {
+      inherit (pkgs) git writeText;
     };
 
     zsh = import ./zsh {
-      inherit (pkgs) writeText fzf neovim less zsh-prezto;
+      inherit (pkgs) writeText fzf neovim less zsh zsh-prezto;
+    };
+
+    termite = import ./termite {
+      inherit (pkgs) termite roboto writeText;
     };
 
   };
@@ -28,15 +33,15 @@ let
           let
             app = builtins.getAttr appName apps;
           in
-            app.environment_etc
+	    app.environment_etc
         ) (builtins.attrNames apps)));
 
-    # TODO: loop over apps
-    system_packages = builtins.attrValues (
-      self.git.packages //
-      self.termite.packages //
-      self.zsh.packages //
-      {});  
+      # TODO: loop over apps
+      system_packages = builtins.attrValues (
+        self.git.packages //
+        self.termite.packages //
+        self.zsh.packages //
+        {});
 
   } // apps ;
 

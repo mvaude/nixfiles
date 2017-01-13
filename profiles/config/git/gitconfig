@@ -24,6 +24,7 @@
   d = diff
   ci = commit -v
   cia = commit -v -a
+  cae = commit -a --amend --no-edit
   co = checkout
   l = log --graph --oneline --decorate --all
   b = branch

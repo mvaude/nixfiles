@@ -1,16 +1,14 @@
-{ writeText, firefox }:
+{ termite, roboto, writeText }:
 
 
 let
-  self = writeText "config-termite" (builtins.readFile ./config);
+  self = writeText "termite-config" (builtins.readFile ./config);
 in {
   environment_etc = [
     {
       source = self;
-      target = "xdg/termite.cfg";
+      target = "xdg/termite/config";
     }
   ];
-  packages = {
-    inherit firefox;
-  };
+  packages = { inherit roboto termite; };
 }

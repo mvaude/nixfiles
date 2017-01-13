@@ -8,6 +8,9 @@ in {
   environment = {
     etc = mvaude_config.environment_etc;
 
+    variables = {
+      NO_AT_BRIDGE = "1";
+    };
     # NOTE: changes to this take effect on login.
     sessionVariables = {
       EDITOR = "nvim";
@@ -125,6 +128,7 @@ in {
     };
   };
 
+  # nix.nixPath = [ "/etc/nixos" "nixos-config=/etc/nixos/configuration.nix" ]; 
   nix.package = pkgs.nixUnstable;
   nix.binaryCachePublicKeys = [
     "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="

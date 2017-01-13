@@ -8,11 +8,11 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 
-font = MesloLGMDZ NF 9
+font = Roboto 9
 
 scrollback_lines = 10000
 search_wrap = true
-geometry = 640x480
+# geometry = 640x480
 
 # "system", "on" or "off"
 cursor_blink = system

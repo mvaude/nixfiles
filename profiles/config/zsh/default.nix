@@ -1,7 +1,7 @@
-{ writeText, fzf, neovim, less, zsh-prezto }:
+{ writeText, fzf, neovim, less, zsh, zsh-prezto }:
 
 let
-  self = writeText "config-zsh" (builtins.readFile ./zshrc);
+  self = writeText "zsh-config" (builtins.readFile ./zshrc);
 in {
   light = self;
   dark = self;
@@ -32,6 +32,6 @@ in {
     }
   ];
   packages = {
-      inherit fzf neovim less;
+      inherit fzf neovim less zsh zsh-prezto;
   };
 }

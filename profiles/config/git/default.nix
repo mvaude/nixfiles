@@ -1,12 +1,14 @@
-{ neovim, writeText }:
+{ git, writeText }:
 
 let
-  self = writeText "config-git" (builtins.readFile ./gitconfig);
+  self = writeText "git-config" (builtins.readFile ./gitconfig);
 in {
   environment_etc =
     [ { source = self;
         target = "gitconfig";
       }
     ];
-  packages = {};
+  packages = {
+    inherit git;
+  };
 }
