@@ -33,11 +33,19 @@ let
           let
             app = builtins.getAttr appName apps;
           in
+# 	    if builtins.getAttr "environment_etc" app
 	    app.environment_etc
+#             else [
+# 	      {
+# 	        source = app.config;
+# 	        target = "xdg/${appName}/${app.filename}";
+#               }
+# 	    ]
         ) (builtins.attrNames apps)));
 
       # TODO: loop over apps
       system_packages = builtins.attrValues (
+        self.awesome.packages //
         self.git.packages //
         self.termite.packages //
         self.zsh.packages //

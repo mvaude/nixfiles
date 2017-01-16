@@ -31,7 +31,7 @@ in {
         curl
 	firefox
         git
-        termite
+        (termite.override { configFile = "/etc/termite/config"; })
         (neovim.override { vimAlias = true; })
         zsh-prezto
       ];
@@ -67,10 +67,10 @@ in {
   # List services that you want to enable:
 
   services = {
-    ntp = {
-      enable = true;
-      servers = [ "server.local" "0.pool.ntp.org" "1.pool.ntp.org" "2.pool.ntp.org" ];
-    };
+    # ntp = {
+    #   enable = true;
+    #   servers = [ "server.local" "0.pool.ntp.org" "1.pool.ntp.org" "2.pool.ntp.org" ];
+    # };
 
     # Enable the OpenSSH daemon.
     openssh.enable = true;
@@ -86,7 +86,7 @@ in {
       enableTCP = false;
       exportConfiguration = true;
       layout = "us";
-      videoDrivers = [ "nouveau" "nvidia" ];
+      videoDrivers = [ "nvidia" ];
       xkbOptions = "eurosign:e, caps:none";
 
       desktopManager = {
