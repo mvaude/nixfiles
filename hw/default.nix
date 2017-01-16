@@ -8,7 +8,8 @@
   };
   
   hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.enable = pkgs.pulseaudioFull;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.opengl.driSupport32Bit = true;
 
   networking.hostName = "thaddius"; # Define your hostname.
   # hostId needed for zsh
