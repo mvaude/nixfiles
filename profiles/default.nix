@@ -29,6 +29,7 @@ in {
         lm_sensors
 
         curl
+	nox
 	firefox
         git
         (termite.override { configFile = "/etc/termite/config"; })
@@ -54,7 +55,9 @@ in {
   };
 
   nixpkgs.config = {
+    allowBroken = false;
     allowUnfree = true;
+    allowUnfreeRedistributable = true;
   };
 
   programs = {
@@ -67,6 +70,9 @@ in {
   # List services that you want to enable:
 
   services = {
+
+    dbus.enable = true;
+
     # ntp = {
     #   enable = true;
     #   servers = [ "server.local" "0.pool.ntp.org" "1.pool.ntp.org" "2.pool.ntp.org" ];
@@ -103,8 +109,10 @@ in {
 
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.enable = true;
 
+  users.mutableUsers = false;
+  users.users."root".shell = "/run/current-system/sw/bin/zsh";
   # Define a user account. Don't forget to set a password with `passwd`.
   users.extraUsers.maxter = {
     name = "maxter";
@@ -132,11 +140,7 @@ in {
 
   # nix.nixPath = [ "/etc/nixos" "nixos-config=/etc/nixos/configuration.nix" ]; 
   nix.package = pkgs.nixUnstable;
-  nix.binaryCachePublicKeys = [
-    "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-  ];
   nix.useSandbox = true;
-  nix.trustedBinaryCaches = [ "https://hydra.nixos.org" ];
   nix.extraOptions = ''
     gc-keep-outputs = true
     auto-optimise-store = true
